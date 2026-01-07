@@ -147,12 +147,12 @@ class QueryIntentClassifier:
             'ratio', 'per unit', 'per customer', 'per item',
             'growth', 'change', 'difference', 'variance',
             
-            # Value/Ranking queries 
+            # Value/Ranking queries (NEW!)
             'high-value', 'low-value', 'valuable', 'most valuable',
             'lifetime value', 'customer value', 'total value',
             'best', 'worst', 'highest', 'lowest',
             
-            # Calculation verbs 
+            # Calculation verbs (NEW!)
             'calculate', 'compute', 'determine', 'find out',
             
             # Time patterns
@@ -166,7 +166,7 @@ class QueryIntentClassifier:
             'such that', 'that are', 'that have',
             'with the', 'having',
             
-            # Income/demographic + value 
+            # Income/demographic + value (NEW!)
             'high-income', 'low-income', 'wealthy', 'affluent',
         ]
         
@@ -196,21 +196,101 @@ class QueryIntentClassifier:
         return None
     
     def _extract_entity_type(self, question_lower: str) -> Optional[str]:
-        """Extract entity type (which dimension table)"""
+        """Extract entity type (which dimension table)
+        
+        Uses context-aware matching to identify primary subject:
+        - "List customers by items purchased" -> customer (primary subject)
+        - "List items bought by customers" -> item (primary subject)
+        """
+        
+        # Define entity keywords with context patterns
+        entity_patterns = {
+            'customer': {
+                'primary_keywords': ['customer', 'customers', 'client', 'clients', 'buyer', 'buyers'],
+                'strong_patterns': [
+                    'list customer', 'show customer', 'name customer', 'which customer',
+                    'top customer', 'bottom customer', 'best customer', 'worst customer',
+                    'find customer', 'get customer'
+                ]
+            },
+            'item': {
+                'primary_keywords': ['item', 'items', 'product', 'products', 'sku'],
+                'strong_patterns': [
+                    'list item', 'show item', 'name item', 'which item',
+                    'top item', 'bottom item', 'best item', 'worst item',
+                    'list product', 'show product', 'top product',
+                    'find item', 'get item'
+                ]
+            },
+            'location': {
+                'primary_keywords': ['location', 'locations', 'store', 'stores', 'place', 'places'],
+                'strong_patterns': [
+                    'list location', 'show location', 'which location',
+                    'top location', 'bottom location', 'best location',
+                    'list store', 'show store', 'top store',
+                    'find location', 'get location'
+                ]
+            }
+        }
+        
+        # Score each entity type
+        entity_scores = {}
+        
         for dim_table in self.config.dimension_tables:
-            # Check for table name or common aliases
-            if 'customer' in dim_table.lower() and any(
-                w in question_lower for w in ['customer', 'client', 'buyer']
-            ):
-                return dim_table
-            elif 'item' in dim_table.lower() and any(
-                w in question_lower for w in ['item', 'product', 'sku']
-            ):
-                return dim_table
-            elif 'location' in dim_table.lower() and any(
-                w in question_lower for w in ['location', 'store', 'place']
-            ):
-                return dim_table
+            score = 0
+            
+            # Determine entity type from table name
+            entity_type = None
+            if 'customer' in dim_table.lower():
+                entity_type = 'customer'
+            elif 'item' in dim_table.lower():
+                entity_type = 'item'
+            elif 'location' in dim_table.lower():
+                entity_type = 'location'
+            
+            if not entity_type or entity_type not in entity_patterns:
+                continue
+            
+            patterns = entity_patterns[entity_type]
+            
+            # Check for strong patterns (high confidence)
+            for pattern in patterns['strong_patterns']:
+                if pattern in question_lower:
+                    score += 10  # Strong indicator
+                    break
+            
+            # Check for primary keywords
+            for keyword in patterns['primary_keywords']:
+                if keyword in question_lower:
+                    score += 1
+            
+            # Context-based scoring
+            # If query starts with "list/show/name [entity]", it's likely the primary subject
+            question_start = question_lower[:30]  # First 30 chars
+            for keyword in patterns['primary_keywords']:
+                if keyword in question_start:
+                    score += 5  # Early mention = likely primary subject
+            
+            # Penalize if entity appears only in context phrases
+            context_phrases = [
+                'number of items', 'items purchased', 'items bought',  # "items" in context
+                'customer purchases', 'customer buys',  # "customer" in context
+                'location sells', 'location has'  # "location" in context
+            ]
+            for phrase in context_phrases:
+                if phrase in question_lower:
+                    # Check if this phrase contains the entity keyword
+                    for keyword in patterns['primary_keywords']:
+                        if keyword in phrase and phrase in question_lower:
+                            score -= 3  # Penalize incidental mention
+            
+            entity_scores[dim_table] = score
+        
+        # Return entity with highest score
+        if entity_scores:
+            best_entity = max(entity_scores.items(), key=lambda x: x[1])
+            if best_entity[1] > 0:  # Only return if score is positive
+                return best_entity[0]
         
         return None
     
