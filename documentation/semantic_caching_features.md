@@ -81,25 +81,7 @@ CREATE TABLE accenture.sales_analysis.llm_sql_cache (
 )
 ```
 ### **Cache Lookup Flow:**
-```
-User Question
-    ↓
-Embed question (384-dim vector)
-    ↓
-Compare with all cached embeddings (cosine similarity)
-    ↓
-    ┌─────────┴─────────┐
-    ↓                   ↓
-Similarity ≥ 0.85?   Similarity < 0.85?
-    ↓                   ↓
-CACHE HIT          CACHE MISS 
-    ↓                   ↓
-Return cached SQL    Call LLM
-    ↓                   ↓
-Update stats         Save to cache
-    ↓                   ↓
-Execute SQL          Execute SQL
-```
+<img width="1024" height="1024" alt="Gemini_Generated_Image_nh4fdwnh4fdwnh4f" src="https://github.com/user-attachments/assets/d510be34-039e-4ec0-805d-d45d4a88f4cc" />
 
 ---
 
