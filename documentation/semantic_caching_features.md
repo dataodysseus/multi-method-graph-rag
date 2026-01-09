@@ -183,7 +183,7 @@ print(f"Time Saved: {stats['time_saved_seconds']:.1f}s")
 |--------|--------|--------|
 | Hit Rate | 50-70% |  Good after warmup |
 | Cache Size | 100-1000 entries |  Scales with usage |
-| Avg Similarity | 0.85-0.95 | ✅ High-quality matches |
+| Avg Similarity | 0.85-0.95 | High-quality matches |
 ### **Cache Warmup:**
 ```
 Queries 1-50: Hit rate ~10% (building cache)
