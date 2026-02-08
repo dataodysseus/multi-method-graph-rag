@@ -26,6 +26,8 @@
 # Import modules
 from graph_rag_core import GraphRAGConfig, GraphRAGSystem
 from graph_rag_enhancements import enhance_with_all
+from semantic_sql_cache import SemanticSQLCache, enhance_llm_with_cache
+from sentence_transformers import SentenceTransformer
 
 # COMMAND ----------
 
@@ -34,9 +36,11 @@ from graph_rag_enhancements import enhance_with_all
 
 # COMMAND ----------
 
+import os
+
 # Configure
 config = GraphRAGConfig(
-    catalog="accenture",
+    catalog=os.getenv("DATABRICKS_CATALOG"),
     schema="sales_analysis",
     fact_table="items_sales",
     dimension_tables=["item_details", "store_location", "customer_details"],
@@ -59,6 +63,22 @@ rag_system.build()
 
 # Add enhancements (LLM fallback enabled by default)
 enhance_with_all(rag_system)
+
+# COMMAND ----------
+
+# Initialize cache
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+cache = SemanticSQLCache(
+    spark=spark,
+    embedding_model=embedding_model,
+    catalog=os.getenv("DATABRICKS_CATALOG"),
+    schema="sales_analysis",
+    cache_table="llm_sql_cache",
+    similarity_threshold=0.85  # 85% similarity for cache hit
+)
+
+print(" Cache initialized")
 
 # COMMAND ----------
 
@@ -108,7 +128,7 @@ rag_system.query("Show items that are popular in Seattle but not in Portland")
 # COMMAND ----------
 
 # Complex: Temporal pattern
-rag_system.query("What's the average number of days between purchases for each customer?")
+rag_system.query("What's the average number of days between purchases for each customer who's name is \"Bryan Gomez\"?")
 
 # COMMAND ----------
 

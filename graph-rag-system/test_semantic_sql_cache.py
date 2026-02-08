@@ -32,9 +32,11 @@ from sentence_transformers import SentenceTransformer
 
 # COMMAND ----------
 
+import os
+
 # Configure
 config = GraphRAGConfig(
-    catalog="accenture",
+    catalog=os.getenv("DATABRICKS_CATALOG"),
     schema="sales_analysis",
     fact_table="items_sales",
     dimension_tables=["item_details", "store_location", "customer_details"],
@@ -63,7 +65,7 @@ cache = SemanticSQLCache(
     catalog="accenture",
     schema="sales_analysis",
     cache_table="llm_sql_cache",
-    similarity_threshold=0.85  # 85% similarity for cache hit
+    similarity_threshold=0.98  # 98% similarity for cache hit
 )
 
 print(" Cache initialized")
@@ -307,7 +309,7 @@ for q1, q2 in test_pairs:
     
     similarity = np.dot(emb1, emb2) / (np.linalg.norm(emb1) * np.linalg.norm(emb2))
     
-    cache_hit = " YES" if similarity >= cache.similarity_threshold else "❌ NO"
+    cache_hit = " YES" if similarity >= cache.similarity_threshold else "NO"
     
     print(f"\nQ1: {q1}")
     print(f"Q2: {q2}")
@@ -344,6 +346,22 @@ print("TEST N: Another similar phrasing")
 print("="*80)
 
 answerN = rag_system.query("Name my top 5 customers by number of items purchased")
+
+# COMMAND ----------
+
+answer = rag_system.query('Find customers who bought "Cocoa Swirl" in December 2025')
+
+# COMMAND ----------
+
+answer = rag_system.query("What are the top 5 items by revenue in December 2025?")
+
+# COMMAND ----------
+
+answer = rag_system.query("Show premium chocolate items with rich flavor")
+
+# COMMAND ----------
+
+answer = rag_system.query(' Show me chocolate items ')
 
 # COMMAND ----------
 

@@ -24,7 +24,7 @@ from llm_sql_generator import LLMSQLGenerator
 
 # Configure
 config = GraphRAGConfig(
-    catalog="accenture",
+    catalog=os.getenv("DATABRICKS_CATALOG"),
     schema="sales_analysis",
     fact_table="items_sales",
     dimension_tables=["item_details", "store_location", "customer_details"],
