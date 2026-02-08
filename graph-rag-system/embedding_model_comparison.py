@@ -60,13 +60,18 @@ test_queries = [
 
 # COMMAND ----------
 
+import os
+catalog= os.getenv("DATABRICKS_CATALOG")
+
+# COMMAND ----------
+
 print("="*80)
 print("TESTING: all-MiniLM-L6-v2 (Current Model)")
 print("="*80)
 
 # Build system with MiniLM
 config_mini = GraphRAGConfig(
-    catalog="accenture",
+    catalog=catalog,
     schema="sales_analysis",
     fact_table="items_sales",
     dimension_tables=["item_details", "store_location", "customer_details"],
@@ -123,7 +128,7 @@ print("="*80)
 
 # Build system with BGE-M3
 config_bge = GraphRAGConfig(
-    catalog="accenture",
+    catalog=catalog,
     schema="sales_analysis",
     fact_table="items_sales",
     dimension_tables=["item_details", "store_location", "customer_details"],
@@ -306,7 +311,7 @@ SWITCHING MODELS IN YOUR CODE:
 Option 1: Use Preset Names (Recommended)
 =========================================
 config = GraphRAGConfig(
-    catalog="accenture",
+    catalog=catalog,
     schema="sales_analysis",
     fact_table="items_sales",
     dimension_tables=["item_details", "store_location", "customer_details"],

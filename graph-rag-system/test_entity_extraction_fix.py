@@ -2,10 +2,11 @@
 
 from graph_rag_core import GraphRAGConfig
 from graph_rag_intelligence import QueryIntentClassifier
+import os
 
 # Configure
 config = GraphRAGConfig(
-    catalog="accenture",
+    catalog=os.getenv("DATABRICKS_CATALOG"),
     schema="sales_analysis",
     fact_table="items_sales",
     dimension_tables=["item_details", "store_location", "customer_details"],

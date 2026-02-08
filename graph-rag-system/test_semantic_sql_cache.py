@@ -32,11 +32,15 @@ from sentence_transformers import SentenceTransformer
 
 # COMMAND ----------
 
+catalog = os.getenv("DATABRICKS_CATALOG")
+
+# COMMAND ----------
+
 import os
 
 # Configure
 config = GraphRAGConfig(
-    catalog=os.getenv("DATABRICKS_CATALOG"),
+    catalog=catalog,
     schema="sales_analysis",
     fact_table="items_sales",
     dimension_tables=["item_details", "store_location", "customer_details"],
@@ -62,7 +66,7 @@ embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 cache = SemanticSQLCache(
     spark=spark,
     embedding_model=embedding_model,
-    catalog="accenture",
+    catalog=catalog,
     schema="sales_analysis",
     cache_table="llm_sql_cache",
     similarity_threshold=0.98  # 98% similarity for cache hit
@@ -187,7 +191,7 @@ display(
             usage_count,
             created_at,
             last_used_at
-        FROM accenture.sales_analysis.llm_sql_cache
+        FROM {catalog}.sales_analysis.llm_sql_cache
         ORDER BY usage_count DESC
     """)
 )
@@ -329,7 +333,7 @@ for q1, q2 in test_pairs:
 # View current cache size
 current_size = spark.sql(f"""
     SELECT COUNT(*) as cache_size
-    FROM accenture.sales_analysis.llm_sql_cache
+    FROM {catalog}.sales_analysis.llm_sql_cache
 """).collect()[0]['cache_size']
 
 print(f"Current cache size: {current_size} entries")

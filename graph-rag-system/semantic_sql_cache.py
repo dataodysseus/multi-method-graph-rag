@@ -30,7 +30,9 @@ from datetime import datetime
 from typing import Optional, Tuple, Dict, Any
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+import os
 
+os.getenv("cata")
 
 class SemanticSQLCache:
     """Semantic cache for LLM-generated SQL queries"""
@@ -39,7 +41,7 @@ class SemanticSQLCache:
         self, 
         spark, 
         embedding_model,
-        catalog: str = "accenture",
+        catalog: str = os.getenv("DATABRICKS_CATALOG"),
         schema: str = "sales_analysis",
         cache_table: str = "llm_sql_cache",
         similarity_threshold: float = 0.85,
