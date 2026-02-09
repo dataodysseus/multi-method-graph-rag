@@ -1,6 +1,6 @@
-# 📚 **Complete File Guide - Your Graph RAG Project**
+# 📚 **Complete File Guide**
 
-Perfect timing! Let me give you a clear map of all your files with their purpose and when to use each one.
+Map of all files with their purpose and when to use each one.
 
 ---
 
@@ -27,7 +27,7 @@ Perfect timing! Let me give you a clear map of all your files with their purpose
 **What it does:** Creates the knowledge graph and does basic queries
 
 **Key features:**
-- Builds graph from your data (items, customers, locations)
+- Builds graph from data (items, customers, locations)
 - Semantic search using embeddings
 - Basic entity retrieval
 
@@ -60,7 +60,7 @@ system.build()
 from graph_rag_enhancements import enhance_with_all
 
 enhance_with_all(rag_system)
-# Now system has all capabilities!
+# Ensure system has all capabilities
 ```
 
 **Status:** ✅ Enhancement module - needed for production
@@ -78,7 +78,7 @@ enhance_with_all(rag_system)
 
 **When to use:** Automatically used by enhancement system
 
-**Status:** ✅ Intelligence module - **just updated with bug fix!**
+**Status:** ✅ Intelligence module - ** updated with bug fix **
 
 ---
 
@@ -103,7 +103,7 @@ enhance_with_all(rag_system)
 
 ---
 
-### **5. `semantic_sql_cache.py`** - Cost Saver (NEW!)
+### **5. `semantic_sql_cache.py`** 
 **What it does:** Caches LLM-generated SQL to save money
 
 **Key features:**
@@ -121,7 +121,7 @@ cache = SemanticSQLCache(spark, embedding_model)
 enhance_llm_with_cache(llm_generator, cache)
 ```
 
-**Status:** ✅ NEW optimization - highly recommended!
+**Status:** ✅ Optimization
 
 ---
 
@@ -130,7 +130,7 @@ enhance_llm_with_cache(llm_generator, cache)
 ### **6. `create_dataset`** - Sample Data Creator
 **What it does:** Creates fake sales data for testing
 
-**When to use:** First time setup (already done!)
+**When to use:** First time setup 
 
 ```python
 # Creates:
@@ -179,7 +179,7 @@ enhance_llm_with_cache(llm_generator, cache)
 - Showing demos to stakeholders
 - Verifying everything works
 
-**Status:** ✅ Main demo notebook - start here!
+**Status:** ✅ Main demo notebook - start here
 
 ---
 
@@ -194,7 +194,7 @@ enhance_llm_with_cache(llm_generator, cache)
 
 **When to use:** After enabling LLM fallback
 
-**Status:** ✅ Test passed - LLM working!
+**Status:** ✅ Test passed - LLM working
 
 ---
 
@@ -208,11 +208,11 @@ enhance_llm_with_cache(llm_generator, cache)
 
 **When to use:** After creating data dictionary
 
-**Status:** ✅ Test passed - dictionary working!
+**Status:** ✅ Test passed - dictionary working
 
 ---
 
-### **11. `test_semantic_sql_cache`** - Cache Testing (NEW!)
+### **11. `test_semantic_sql_cache`** - Cache Testing 
 **What it does:** Demonstrates semantic caching benefits
 
 **Test cases:**
@@ -223,11 +223,11 @@ enhance_llm_with_cache(llm_generator, cache)
 
 **When to use:** After implementing cache
 
-**Status:** 🆕 NEW - run to see savings!
+**Status:** 🆕 NEW - run to see savings
 
 ---
 
-### **12. `test_entity_extraction_fix.py`** - Bug Fix Validator (NEW!)
+### **12. `test_entity_extraction_fix.py`** - Bug Fix Validator 
 **What it does:** Tests entity extraction fix
 
 **Test cases:**
@@ -237,7 +237,7 @@ enhance_llm_with_cache(llm_generator, cache)
 
 **When to use:** After applying entity extraction fix
 
-**Status:** 🆕 NEW - **run after cluster restart!**
+**Status:** 🆕 NEW - **run after cluster restart**
 
 ---
 
@@ -265,29 +265,29 @@ enhance_llm_with_cache(llm_generator, cache)
 ## 🗂️ **File Organization Summary**
 
 ```
-📦 Your Project Structure
+📦 Project Structure
 │
 ├── 🏗️ CORE MODULES (3 files - import these)
 │   ├── graph_rag_core.py              ← Build graph
 │   ├── graph_rag_enhancements.py      ← Add SQL, patterns
-│   └── graph_rag_intelligence.py      ← Smart routing (FIXED!)
+│   └── graph_rag_intelligence.py      ← Smart routing 
 │
 ├── 🚀 ADVANCED FEATURES (2 files - optional)
 │   ├── llm_sql_generator.py           ← Complex SQL via LLM
-│   └── semantic_sql_cache.py          ← Cost optimization (NEW!)
+│   └── semantic_sql_cache.py          ← Cost optimization 
 │
 ├── 📊 SETUP & DATA (2 notebooks - run once)
 │   ├── create_dataset                 ← Sample data (done ✅)
 │   └── create_data_dictionary         ← Schema metadata (done ✅)
 │
-├── 📓 MAIN DEMO (1 notebook - start here!)
+├── 📓 MAIN DEMO (1 notebook - start here)
 │   └── graph_rag_driver_notebook      ← Complete walkthrough
 │
 └── 🧪 TESTS (5 notebooks - verify features)
     ├── test_llm_sql_fallback          ← LLM testing
     ├── test_data_dictionary_impact    ← Dictionary testing
-    ├── test_semantic_sql_cache        ← Cache testing (NEW!)
-    ├── test_entity_extraction_fix.py  ← Bug fix test (NEW!)
+    ├── test_semantic_sql_cache        ← Cache testing 
+    ├── test_entity_extraction_fix.py  ← Bug fix test 
     └── embedding_model_comparison     ← Model comparison
 ```
 
@@ -296,8 +296,8 @@ enhance_llm_with_cache(llm_generator, cache)
 ## 🎯 **Recommended Workflow**
 
 ### **For First-Time Setup:**
-1. ✅ `create_dataset` (done - you have data)
-2. ✅ `create_data_dictionary` (done - you have dictionary)
+1. ✅ `create_dataset` 
+2. ✅ `create_data_dictionary` 
 3. ✅ `graph_rag_driver_notebook` (run to see system work)
 
 ### **For Development:**
@@ -305,15 +305,15 @@ enhance_llm_with_cache(llm_generator, cache)
 2. Import `graph_rag_enhancements.py`
 3. Use `enhance_with_all()` to enable everything
 
-### **For Testing Your Bug Fix:**
-1. **RESTART CLUSTER** (critical!)
+### **For Testing Bug Fix:**
+1. **RESTART CLUSTER** (critical)
 2. Run `test_entity_extraction_fix.py`
 3. Verify: "List customers by items" → returns customers ✅
 
 ### **For Adding Cache:**
 1. Import `semantic_sql_cache.py`
 2. Run `test_semantic_sql_cache`
-3. Monitor savings!
+3. Monitor savings
 
 ---
 
@@ -347,22 +347,21 @@ enhance_llm_with_cache(system.sql_builder.llm_generator, cache)
 
 ---
 
-## 🆕 **Latest Updates (Today!)**
+## 🆕 **Latest Updates (Today)**
 
 ### **1. Entity Extraction Bug Fix**
 - **File:** `graph_rag_intelligence.py` (updated)
-- **Issue:** "List customers by items" returned items (wrong!)
+- **Issue:** "List customers by items" returned items (wrong)
 - **Fix:** Context-aware scoring system
 - **Action:** RESTART CLUSTER, then test
 
 ### **2. Semantic SQL Cache**
-- **File:** `semantic_sql_cache.py` (new!)
+- **File:** `semantic_sql_cache.py` 
 - **Benefit:** 50-70% cost reduction
-- **Action:** Add to your system
 
 ### **3. Test Files**
-- **File:** `test_entity_extraction_fix.py` (new!)
-- **File:** `test_semantic_sql_cache` (new!)
+- **File:** `test_entity_extraction_fix.py` (new)
+- **File:** `test_semantic_sql_cache` (new)
 - **Action:** Run to verify new features
 
 ---
@@ -375,12 +374,12 @@ A: `graph_rag_driver_notebook` - it's a complete walkthrough
 ### **Q: How do I fix the entity bug?**
 A: 
 1. Update `graph_rag_intelligence.py` (already done)
-2. **RESTART CLUSTER** (critical!)
+2. **RESTART CLUSTER** (critical)
 3. Rebuild system
 4. Test with `test_entity_extraction_fix.py`
 
 ### **Q: Should I use the cache?**
-A: Yes! If you're using LLM for complex queries, cache saves 50%+ costs
+A: Yes, If using LLM for complex queries, cache saves 50%+ costs
 
 ### **Q: How do I know if everything works?**
 A: Run these in order:
@@ -434,25 +433,22 @@ A: Run these in order:
 # Open this notebook:
 graph_rag_driver_notebook
 
-# It explains everything step-by-step!
+# It explains everything step-by-step
 ```
 
 ### **Quick Test:**
 ```python
-# Are you set up correctly?
+# Set up correctness
 from graph_rag_core import GraphRAGSystem
 system = GraphRAGSystem(config, spark)
 system.build()
 
-# If this works, you're good! ✅
 ```
 
 ---
 
-Hope this helps you navigate! The key files to remember are:
+The key files, in summary: 
 1. **`graph_rag_core.py`** - foundation
 2. **`graph_rag_enhancements.py`** - features
 3. **`graph_rag_driver_notebook`** - demo/tutorial
-4. **`test_entity_extraction_fix.py`** - validate your bug fix
-
-**And don't forget to RESTART THE CLUSTER before testing the entity extraction fix!** 🔄
+4. **`test_entity_extraction_fix.py`** - validate the bug fix
